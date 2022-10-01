@@ -1,0 +1,7 @@
+.vscode/
+
+build/
+
+*.swp
+/test/output
+Manifest.toml
