@@ -1,3 +1,5 @@
+using MosimoBase.LinearAlgebra: norm_sqr
+
 function default_callback(setup::GDSetup)
     logging_period = max(10, setup.max_steps ÷ 20)
     final = original_positions(setup.final)
@@ -25,7 +27,8 @@ function move!(
     else
         projection_matrix(∇C)
     end
-    new_direction = unflatten(projector * flatten(direction))
+    T = eltype(direction)
+    new_direction = unflatten(T, projector * flatten(direction))
     rs .+= δR * normalize(new_direction)
 end
 
@@ -78,13 +81,14 @@ function constraint_corrections!(rs, model, E_L)
     end
 end
 
-function run(
+function gd_run(
     setup::GDSetup;
     callback::Nullable{Function} = nothing,
     return_result = true,
 )
     model = setup.model
     δR = setup.δR
+    max_steps = setup.max_steps
 
     state = init_state(setup)
 
@@ -113,7 +117,7 @@ function run(
         constraint_corrections!(current, model, E_L)
         state.step += 1
         state.path_length += distance(current, previous)
-        next_direction = get_direction(state)
+        next_direction = callback(state)
         state.dist² = norm_sqr(next_direction)
     end
     callback(state; force_logging = true)

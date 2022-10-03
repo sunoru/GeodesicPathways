@@ -35,6 +35,6 @@ function gd_init(
     setup = GDSetup(
         initial, final, N,
         δR, landscape_energy, δE,
-        seed, max_steps, model
+        max_steps, seed, model
     )
 end
