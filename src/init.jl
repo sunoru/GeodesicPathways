@@ -18,8 +18,8 @@ function gd_init(
     seed::Nullable{Integer} = nothing
 )
     box = pbc_box(model)
-    initial = ConfigurationSystem(initial; box = box)
-    final = ConfigurationSystem(final; box = box)
+    initial = ConfigurationSystem(initial; box = box, update_periods = false)
+    final = ConfigurationSystem(final; box = box, update_periods = false)
     N = natoms(initial)
     @assert N === natoms(final)
     E_L = max(potential_energy(initial, model), potential_energy(final, model))
