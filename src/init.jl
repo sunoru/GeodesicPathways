@@ -30,7 +30,7 @@ function gd_init(
         # throw(SimulationError("`landscape_energy` should be at least $(E_L)."))
     end
 
-    seed = make_seed(seed)
+    seed = isnothing(seed) ? make_seed() : make_seed(seed)
 
     setup = GDSetup(
         initial, final, N,
