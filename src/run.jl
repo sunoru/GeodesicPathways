@@ -6,7 +6,7 @@ function default_callback(setup::GDSetup)
     @printf  " Step |  Distance  |  Length\n"
     (state::GDState; force_logging::Bool = false) -> begin
         if force_logging || state.step % logging_period ≡ 0
-            @printf "%5d | %9.5f  | %8.5f" state.step √(state.dist²) state.path_length
+            @printf "%5d | %9.5f  | %8.5f\n" state.step √(state.dist²) state.path_length
         end
         final - positions(state.configuration)
     end
