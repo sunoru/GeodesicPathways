@@ -82,10 +82,10 @@ function constraint_corrections!(rs, model, E_L)
 end
 
 function gd_run(
-    setup::GDSetup;
-    callback::Nullable{Function} = nothing,
+    setup::GDSetup,
+    callback::Nullable{F} = nothing;
     return_result = true,
-)
+) where {F <: Function}
     model = setup.model
     δR = setup.δR
     max_steps = setup.max_steps
